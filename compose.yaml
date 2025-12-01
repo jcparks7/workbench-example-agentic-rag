@@ -1,120 +1,55 @@
-version: "3.9"
-
+# /home/jparks/nvidia-workbench/jcparks7-workbench-example-agentic-rag/compose.yaml
 services:
-
-  ############################################################
-  # QDRANT VECTOR DATABASE
-  ############################################################
-  qdrant:
-    image: qdrant/qdrant:latest
-    container_name: rag_qdrant
-    restart: unless-stopped
+  nim:
+    image: nvcr.io/nvidia/nim:latest
+    container_name: nim
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     environment:
-      QDRANT__STORAGE__PATH: /qdrant/storage
-    volumes:
-      - qdrant_data:/qdrant/storage
+      - NIM_API_KEY=${NIM_API_KEY}
+      - WORKBENCH_API_KEY=${WORKBENCH_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
     ports:
-      - "6333:6333"
-      - "6334:6334"
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:6333/healthz"]
-      interval: 10s
-      timeout: 3s
-      retries: 10
-
-  ############################################################
-  # LLM BACKEND: OLLAMA (LOCAL MODEL)
-  ############################################################
-  ollama:
-    image: ollama/ollama:latest
-    container_name: rag_ollama
-    restart: unless-stopped
+      - "5000:5000"
     volumes:
-      - ollama_data:/root/.ollama
-    ports:
-      - "11434:11434"
-    profiles: ["local-llm"]
-    healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:11434/api/tags"]
-      interval: 10s
-      timeout: 3s
-      retries: 20
-
-  ############################################################
-  # LLM BACKEND: OPENAI NIM (REMOTE MODEL THROUGH RUNTIME)
-  ############################################################
-  nim-runtime:
-    image: ghcr.io/openai/nim-runtime:latest
-    container_name: rag_nim_runtime
+      - nim_data:/workspace/data
+    profiles:
+      - nim
     restart: unless-stopped
+
+  vector-db:
+    image: milvusdb/milvus:v2.3.0
+    container_name: milvus
     environment:
-      NIM_API_KEY: ${NIM_API_KEY}
+      - TZ=UTC
+    ports:
+      - "19530:19530"  # gRPC
+      - "19121:19121"  # HTTP
+    volumes:
+      - milvus_data:/var/lib/milvus
+    profiles:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    image: nvcr.io/nvidia/workbench/frontend:latest
+    container_name: workbench-frontend
+    environment:
+      - WORKBENCH_API_KEY=${WORKBENCH_API_KEY:-}
     ports:
       - "8080:8080"
-    profiles: ["nim"]
-    healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]
-      interval: 10s
-      timeout: 3s
-      retries: 20
-
-  ############################################################
-  # BACKEND API (Python / FastAPI)
-  ############################################################
-  backend:
-    build: ./backend
-    container_name: rag_backend
-    restart: unless-stopped
     depends_on:
-      qdrant:
-        condition: service_healthy
-      ollama:
-        condition: service_started
-      nim-runtime:
-        condition: service_started
-    environment:
-      QDRANT_URL: http://qdrant:6333
-      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-openai}
-      OLLAMA_URL: http://ollama:11434
-      NIM_URL: http://nim-runtime:8080
-      WORKBENCH_API_KEY: ${WORKBENCH_API_KEY}
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-    ports:
-      - "8000:8000"
-
-  ############################################################
-  # WORKER / INGESTION SERVICE
-  ############################################################
-  worker:
-    build: ./worker
-    container_name: rag_worker
+      - nim
+    profiles:
+      - frontend
     restart: unless-stopped
-    depends_on:
-      qdrant:
-        condition: service_healthy
-      backend:
-        condition: service_started
-    environment:
-      QDRANT_URL: http://qdrant:6333
-      BACKEND_URL: http://backend:8000
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      WORKBENCH_API_KEY: ${WORKBENCH_API_KEY}
-
-  ############################################################
-  # FRONTEND APPLICATION (Next.js or other)
-  ############################################################
-  frontend:
-    build: ./frontend
-    container_name: rag_frontend
-    restart: unless-stopped
-    depends_on:
-      backend:
-        condition: service_started
-    ports:
-      - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
 
 volumes:
-  qdrant_data:
-  ollama_data:
+  nim_data:
+  milvus_data:
