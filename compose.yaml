@@ -1,25 +1,120 @@
-# Create your compose file. To learn more, please visit
-# https://docs.docker.com/reference/compose-file/
+version: "3.9"
+
 services:
-  local-nim:
-    image: nvcr.io/nim/meta/llama-3.1-8b-instruct:latest
-    runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
+
+  ############################################################
+  # QDRANT VECTOR DATABASE
+  ############################################################
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: rag_qdrant
+    restart: unless-stopped
+    environment:
+      QDRANT__STORAGE__PATH: /qdrant/storage
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  ############################################################
+  # LLM BACKEND: OLLAMA (LOCAL MODEL)
+  ############################################################
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rag_ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    profiles: ["local-llm"]
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:11434/api/tags"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
+  ############################################################
+  # LLM BACKEND: OPENAI NIM (REMOTE MODEL THROUGH RUNTIME)
+  ############################################################
+  nim-runtime:
+    image: ghcr.io/openai/nim-runtime:latest
+    container_name: rag_nim_runtime
+    restart: unless-stopped
+    environment:
+      NIM_API_KEY: ${NIM_API_KEY}
+    ports:
+      - "8080:8080"
+    profiles: ["nim"]
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
+  ############################################################
+  # BACKEND API (Python / FastAPI)
+  ############################################################
+  backend:
+    build: ./backend
+    container_name: rag_backend
+    restart: unless-stopped
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+      nim-runtime:
+        condition: service_started
+    environment:
+      QDRANT_URL: http://qdrant:6333
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-openai}
+      OLLAMA_URL: http://ollama:11434
+      NIM_URL: http://nim-runtime:8080
+      WORKBENCH_API_KEY: ${WORKBENCH_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     ports:
       - "8000:8000"
-    volumes:
-      - type: bind
-        source: /tmp
-        target: /opt/nim/.cache/
+
+  ############################################################
+  # WORKER / INGESTION SERVICE
+  ############################################################
+  worker:
+    build: ./worker
+    container_name: rag_worker
+    restart: unless-stopped
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      backend:
+        condition: service_started
     environment:
-      - NGC_API_KEY=${NVIDIA_API_KEY:?Error NVIDIA_API_KEY not set}
-      
-networks:
-  default:
-    name: agentic-rag
+      QDRANT_URL: http://qdrant:6333
+      BACKEND_URL: http://backend:8000
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      WORKBENCH_API_KEY: ${WORKBENCH_API_KEY}
+
+  ############################################################
+  # FRONTEND APPLICATION (Next.js or other)
+  ############################################################
+  frontend:
+    build: ./frontend
+    container_name: rag_frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+
+volumes:
+  qdrant_data:
+  ollama_data:
