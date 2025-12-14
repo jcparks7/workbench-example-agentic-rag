@@ -63,25 +63,6 @@ if INTERNAL_API == 'yes':
 # URLs for default example docs for the RAG.
 doc_links = (
     "https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/windows.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/macos.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/ubuntu-local.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/ubuntu-remote.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/quickstart-basic.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/quickstart-cli.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/quickstart-environment.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/quickstart-environment-cli.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/quickstart-custom-app.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/quickstart-hybrid-rag.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/locations/remote.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/base-environments.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/reference/components.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/reference/cli.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/troubleshooting/troubleshooting.html",
-    "https://docs.nvidia.com/ai-workbench/user-guide/latest/troubleshooting/logging.html",
-    "https://raw.githubusercontent.com/NVIDIA/workbench-example-agentic-rag/refs/heads/main/README.md",
 )
 EXAMPLE_LINKS_LEN = 10
 
@@ -94,7 +75,7 @@ from chatui.utils import compile, database, logger, gpu_compatibility
 from langgraph.graph import END, StateGraph
 
 PATH = "/"
-TITLE = "Agentic RAG: Chat UI"
+TITLE = "Agentic RAG customized for Work: Chat UI"
 OUTPUT_TOKENS = 250
 MAX_DOCS = 5
 
@@ -201,12 +182,12 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
 
                 # Sample questions that users can click on to use
                 with gr.Row(equal_height=True):
-                    sample_query_1 = gr.Button("How do I add an integration in the CLI?", variant="secondary", size="sm", interactive=True)
-                    sample_query_2 = gr.Button("How do I fix an inaccessible remote Location?", variant="secondary", size="sm", interactive=True)
+                    sample_query_1 = gr.Button("What is an IM", variant="secondary", size="sm", interactive=True)
+                    sample_query_2 = gr.Button("A patient is threatening to harm self, what are essential actions?", variant="secondary", size="sm", interactive=True)
                 
                 with gr.Row(equal_height=True):
-                    sample_query_3 = gr.Button("What are the NVIDIA-provided default base environments?", variant="secondary", size="sm", interactive=True)
-                    sample_query_4 = gr.Button("How do I create a support bundle for troubleshooting?", variant="secondary", size="sm", interactive=True)
+                    sample_query_3 = gr.Button("A patient has just had an unwitnessed fall. what are essential actions?", variant="secondary", size="sm", interactive=True)
+                    sample_query_4 = gr.Button("A patient has reported cold like symptoms, what are essential actions?", variant="secondary", size="sm", interactive=True)
             
             # Hidden column to be rendered when the user collapses all settings.
             with gr.Column(scale=1, min_width=100, visible=False) as hidden_settings_column:
