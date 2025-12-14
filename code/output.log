@@ -4,75 +4,22 @@ Running on local URL:  http://0.0.0.0:8080
 To create a public link, set `share=True` in `launch()`.
 IMPORTANT: You are using gradio version 4.15.0, however version 4.44.1 is available, please upgrade.
 --------
----ROUTE QUESTION---
-What is the difference between a medical diagnosis and a nursing diagnosis?
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-What is an IM
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-What is an IM
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
-[split_documents] Splitting 1 docs with chunk size 250, overlap 0
-[embed_documents] Embedding 1 chunks using model: nvidia/nv-embedqa-e5-v5
----ROUTE QUESTION---
-What is an IM
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
-[upload] No URLs provided.
----ROUTE QUESTION---
-What is an IM
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-What is an IM
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
 [split_documents] Splitting 1 docs with chunk size 250, overlap 0
 [embed_documents] Embedding 1 chunks using model: nvidia/nv-embedqa-e5-v5
 [clear] Collection 'rag-chroma' cleared.
-[clear] Removed directory: d41d4532-8e96-4679-b179-f447e71b5c56
+[clear] Removed directory: 0d8c4cc7-e845-45ad-91bd-2fca0394bfb9
 [split_documents] Splitting 1 docs with chunk size 250, overlap 0
 [embed_documents] Embedding 1 chunks using model: nvidia/nv-embedqa-e5-v5
+---ROUTE QUESTION---
+A patient is threatening to harm self, what are essential actions?
+{'datasource': 'web_search'}
+---ROUTE QUESTION TO WEB SEARCH---
+---WEB SEARCH---
+---GENERATE---
+---CHECK HALLUCINATIONS---
+---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+---GRADE GENERATION vs QUESTION---
+---DECISION: GENERATION ADDRESSES QUESTION---
 ---ROUTE QUESTION---
 What is an IM
 {'datasource': 'web_search'}
@@ -84,21 +31,7 @@ What is an IM
 ---GRADE GENERATION vs QUESTION---
 ---DECISION: GENERATION ADDRESSES QUESTION---
 ---ROUTE QUESTION---
-Focus on the keyword Incident Management
-{'datasource': 'vectorstore'}
----ROUTE QUESTION TO RAG---
----RETRIEVE---
----CHECK DOCUMENT RELEVANCE TO QUESTION---
----GRADE: DOCUMENT RELEVANT---
----ASSESS GRADED DOCUMENTS---
----DECISION: GENERATE---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-I work in the department of state hospitals. What is an IM?
+A patient has just had an unwitnessed fall. what are essential actions?
 {'datasource': 'web_search'}
 ---ROUTE QUESTION TO WEB SEARCH---
 ---WEB SEARCH---
@@ -107,40 +40,8 @@ I work in the department of state hospitals. What is an IM?
 ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
 ---GRADE GENERATION vs QUESTION---
 ---DECISION: GENERATION ADDRESSES QUESTION---
-[clear] Collection 'rag-chroma' cleared.
-[clear] Removed directory: 67cc67d4-0d3d-44fd-bf6d-49c58d1ace34
-[split_documents] Splitting 1 docs with chunk size 250, overlap 0
-[embed_documents] Embedding 1 chunks using model: nvidia/nv-embedqa-e5-v5
 ---ROUTE QUESTION---
-What is an IM?
-{'datasource': 'vectorstore'}
----ROUTE QUESTION TO RAG---
----RETRIEVE---
----CHECK DOCUMENT RELEVANCE TO QUESTION---
----GRADE: DOCUMENT RELEVANT---
----ASSESS GRADED DOCUMENTS---
----DECISION: GENERATE---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-What is the IM comprised of?
-{'datasource': 'vectorstore'}
----ROUTE QUESTION TO RAG---
----RETRIEVE---
----CHECK DOCUMENT RELEVANCE TO QUESTION---
----GRADE: DOCUMENT RELEVANT---
----ASSESS GRADED DOCUMENTS---
----DECISION: GENERATE---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-Are all IM the same?
+A patient has reported cold like symptoms, what are essential actions?
 {'datasource': 'web_search'}
 ---ROUTE QUESTION TO WEB SEARCH---
 ---WEB SEARCH---
@@ -149,62 +50,11 @@ Are all IM the same?
 ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
 ---GRADE GENERATION vs QUESTION---
 ---DECISION: GENERATION ADDRESSES QUESTION---
-[clear] Collection 'rag-chroma' cleared.
-[clear] Removed directory: afe0f5b0-6134-40e9-8c74-991d544ff9ad
-[split_documents] Splitting 1 docs with chunk size 250, overlap 0
-[embed_documents] Embedding 1 chunks using model: nvidia/nv-embedqa-e5-v5
-[clear] Collection 'rag-chroma' cleared.
-[clear] Removed directory: b33d532e-d765-44e9-a774-3ec9ad58fbdb
 ---ROUTE QUESTION---
-Are all IM the same
+What is an IM
 {'datasource': 'web_search'}
 ---ROUTE QUESTION TO WEB SEARCH---
 ---WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
-[split_documents] Splitting 1 docs with chunk size 250, overlap 0
-[embed_documents] Embedding 1 chunks using model: nvidia/nv-embedqa-e5-v5
----ROUTE QUESTION---
-What is an IM?
-
-{'datasource': 'vectorstore'}
----ROUTE QUESTION TO RAG---
----RETRIEVE---
----CHECK DOCUMENT RELEVANCE TO QUESTION---
----GRADE: DOCUMENT RELEVANT---
----ASSESS GRADED DOCUMENTS---
----DECISION: GENERATE---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-Are all the IM categories the same?
-{'datasource': 'vectorstore'}
----ROUTE QUESTION TO RAG---
----RETRIEVE---
----CHECK DOCUMENT RELEVANCE TO QUESTION---
----GRADE: DOCUMENT RELEVANT---
----ASSESS GRADED DOCUMENTS---
----DECISION: GENERATE---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-I am working on an IM, who must I notify?
-{'datasource': 'vectorstore'}
----ROUTE QUESTION TO RAG---
----RETRIEVE---
----CHECK DOCUMENT RELEVANCE TO QUESTION---
----GRADE: DOCUMENT RELEVANT---
----ASSESS GRADED DOCUMENTS---
----DECISION: GENERATE---
 ---GENERATE---
 ---CHECK HALLUCINATIONS---
 ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
