@@ -21,3 +21,29 @@ What is an IM
 What is an IM
 ---ROUTE QUESTION---
 What is an IM
+[split_documents] Splitting 3 docs with chunk size 250, overlap 0
+---ROUTE QUESTION---
+What is an IM
+[upload_files] Pipeline failed: ('Connection broken: IncompleteRead(753201 bytes read, 289100 more expected)', IncompleteRead(753201 bytes read, 289100 more expected))
+[clear] Collection 'rag-chroma' cleared.
+[split_documents] Splitting 1 docs with chunk size 250, overlap 0
+[upload_files] Pipeline failed: ('Connection broken: IncompleteRead(48689 bytes read, 993612 more expected)', IncompleteRead(48689 bytes read, 993612 more expected))
+---ROUTE QUESTION---
+What is the capital of New York?
+---ROUTE QUESTION---
+What is an IM
+---ROUTE QUESTION---
+What is an IM
+[clear] Collection 'rag-chroma' cleared.
+[split_documents] Splitting 1 docs with chunk size 250, overlap 0
+[embed_documents] Embedding 2 chunks using model: nvidia/nv-embedqa-e5-v5
+---ROUTE QUESTION---
+What is an IM
+{'datasource': 'web_search'}
+---ROUTE QUESTION TO WEB SEARCH---
+---WEB SEARCH---
+---GENERATE---
+---CHECK HALLUCINATIONS---
+---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
+---GRADE GENERATION vs QUESTION---
+---DECISION: GENERATION ADDRESSES QUESTION---
