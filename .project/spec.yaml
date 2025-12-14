@@ -3,7 +3,7 @@ specMinorVersion: 2
 meta:
     name: agentic-rag
     image: project-agentic-rag
-    description: An example project for advanced RAG using agents
+    description: A customized version of the example project for advanced RAG using agents to be used as a Nursing Mentor for a Hospital.
     labels: []
     createdOn: "2024-07-15T21:09:46Z"
     defaultBranch: main
