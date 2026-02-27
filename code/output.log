@@ -5,6 +5,4 @@ To create a public link, set `share=True` in `launch()`.
 IMPORTANT: You are using gradio version 4.15.0, however version 4.44.1 is available, please upgrade.
 --------
 ---ROUTE QUESTION---
-What is the weather in Salinas California?
----ROUTE QUESTION---
-What are the NVIDIA-provided default base environments?
+How do I add an integration in the CLI?
